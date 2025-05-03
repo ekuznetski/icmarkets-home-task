@@ -1,24 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-export type Theme = 'light' | 'dark'
+import { SortingState } from '@tanstack/react-table'
 
 interface UIState {
-  theme: Theme
+  cryptoTableSorting: SortingState
 }
 
 const initialState: UIState = {
-  theme: 'dark',
+  cryptoTableSorting: [],
 }
 
 export const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setTheme(state, action: PayloadAction<Theme>) {
-      state.theme = action.payload
+    setCryptoTableSorting(state, action: PayloadAction<SortingState>) {
+      state.cryptoTableSorting = action.payload
+    },
+    resetCryptoTableSorting(state) {
+      state.cryptoTableSorting = []
     },
   },
 })
 
-export const { setTheme } = uiSlice.actions
+export const { setCryptoTableSorting, resetCryptoTableSorting } = uiSlice.actions
 export default uiSlice.reducer

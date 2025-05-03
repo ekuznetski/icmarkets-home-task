@@ -4,7 +4,6 @@ import './globals.css'
 import { ReduxProvider } from '@/providers/ReduxProvider'
 import { Suspense } from 'react'
 import ReactQueryProvider from '@/providers/ReactQueryProvider'
-import Header from '@/components/Header'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,8 +30,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ReduxProvider>
           <ReactQueryProvider>
-            <Suspense fallback={<div className="p-8 text-center">Загрузка...</div>}>
-              <Header />
+            <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
               {children}
             </Suspense>
           </ReactQueryProvider>
