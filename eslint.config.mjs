@@ -30,7 +30,6 @@ const eslintConfig = [
       prettier: prettierPlugin,
     },
     rules: {
-      // Более строгие правила
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
