@@ -1,16 +1,16 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { FlatCompat } from '@eslint/eslintrc'
-import typescriptEslint from '@typescript-eslint/eslint-plugin'
-import typescriptParser from '@typescript-eslint/parser'
-import prettierPlugin from 'eslint-plugin-prettier'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+import prettierPlugin from 'eslint-plugin-prettier';
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-})
+});
 
 const eslintConfig = [
   {
@@ -43,7 +43,13 @@ const eslintConfig = [
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/ban-ts-comment': 'warn',
-      'prettier/prettier': 'error',
+      'prettier/prettier': [
+        'error',
+        {
+          trailingComma: 'all',
+          jsxSingleQuote: true,
+        },
+      ],
       'no-var': 'error',
       'prefer-const': 'error',
       eqeqeq: ['error', 'always'],
@@ -53,6 +59,6 @@ const eslintConfig = [
     },
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
-]
+];
 
-export default eslintConfig
+export default eslintConfig;

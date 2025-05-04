@@ -1,5 +1,5 @@
 export const QUERY_KEYS = {
-  symbols: ['symbols'],
-  coinDetails: (id: string) => ['coin-details', id],
+  allSymbols: ['allSymbols'],
+  symbolDetails: (id: string) => ['symbolDetails', id],
   portfolio: ['portfolio'],
-}
+};
