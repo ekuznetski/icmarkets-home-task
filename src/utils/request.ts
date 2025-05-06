@@ -1,62 +1,51 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import { urls } from './config';
 import { CryptoSymbol } from '../domain/types/CryptoSymbol';
 import { CryptoSymbolDetails } from '../domain/types/CryptoSymbol';
 
 export enum RequestMethod {
-  GET = 'get',
-  POST = 'post',
-  PUT = 'put',
-  DELETE = 'delete',
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
 }
 
-interface RequestParams<R> {
-  url: string;
-  data?: R;
-  options?: AxiosRequestConfig;
+type FetchWithRevalidateOptions = {
   method?: RequestMethod;
-}
+  body?: unknown;
+  headers?: Record<string, string>;
+  revalidate: number;
+};
 
-async function makeRequest<T, R = Record<string, unknown>>({
-  url,
-  method = RequestMethod.GET,
-  data,
-  options,
-}: RequestParams<R>): Promise<T> {
-  try {
-    switch (method) {
-      case RequestMethod.GET:
-        return (await axios.get<T>(url, options)).data;
-      case RequestMethod.POST:
-        return (await axios.post<T>(url, data, options)).data;
-      case RequestMethod.PUT:
-        return (await axios.put<T>(url, data, options)).data;
-      case RequestMethod.DELETE:
-        return (await axios.delete<T>(url, options)).data;
-      default:
-        throw new Error('Invalid request method');
-    }
-  } catch (error) {
-    throw new Error(
-      axios.isAxiosError(error)
-        ? error.response?.data?.message || error.message
-        : 'Unexpected error',
-    );
+async function fetchWithRevalidate<T>(
+  url: string,
+  { method = RequestMethod.GET, body, headers, revalidate }: FetchWithRevalidateOptions,
+): Promise<T> {
+  const fetchOptions: RequestInit & { next: { revalidate: number } } = {
+    method,
+    headers,
+    next: { revalidate },
+  };
+  if (body !== undefined) {
+    fetchOptions.body = typeof body === 'string' ? body : JSON.stringify(body);
+    fetchOptions.headers = {
+      'Content-Type': 'application/json',
+      ...headers,
+    };
   }
+  const res = await fetch(url, fetchOptions);
+  if (!res.ok) throw new Error('Failed to fetch');
+  return res.json();
 }
 
-export const getSymbolsRequest = () => {
-  const url = urls.cryptoSymbols;
-  return makeRequest<CryptoSymbol[]>({
-    url,
-    method: RequestMethod.GET,
-  });
-};
+export async function getSymbolsRequest(): Promise<Record<string, CryptoSymbol>> {
+  const data = await fetchWithRevalidate<CryptoSymbol[]>(urls.cryptoSymbols, { revalidate: 600 });
+  return data.reduce<Record<string, CryptoSymbol>>((acc, symbol) => {
+    acc[symbol.id] = symbol;
+    return acc;
+  }, {});
+}
 
-export const getSymbolDetailsRequest = (id: string) => {
+export async function getSymbolDetailsRequest(id: string): Promise<CryptoSymbolDetails> {
   const url = `${urls.symbolDetails}${id}`;
-  return makeRequest<CryptoSymbolDetails>({
-    url,
-    method: RequestMethod.GET,
-  });
-};
+  return fetchWithRevalidate<CryptoSymbolDetails>(url, { revalidate: 600 });
+}

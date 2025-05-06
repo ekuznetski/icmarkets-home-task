@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
 import { useDebounce } from '@/hooks/useDebounce';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 type SearchBarProps = {
   onChange: (value: string) => void;
 };
@@ -14,25 +18,26 @@ export function SearchBar({ onChange }: SearchBarProps) {
   };
   const clearSearch = () => {
     setInternalValue('');
+    onChange('');
   };
   return (
     <div className='relative w-full max-w-xs mb-4'>
-      <input
+      <Input
         type='text'
         placeholder='Search by name or symbol...'
         value={internalValue}
         onChange={internalOnChange}
-        className='px-3 py-2 border border-gray-300 rounded w-full bg-white text-black dark:bg-zinc-800 dark:text-white pr-10'
       />
       {internalValue && (
-        <button
-          type='button'
+        <Button
+          variant='ghost'
+          size='icon'
           onClick={clearSearch}
-          className='absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none transition-colors duration-200'
+          className='absolute !bg-transparent right-2 top-1/2 -translate-y-1/2 cursor-pointer'
           aria-label='Clear search'
         >
-          <AiOutlineClose size={18} />
-        </button>
+          <FontAwesomeIcon icon={faXmark} className='w-4 h-4' />
+        </Button>
       )}
     </div>
   );

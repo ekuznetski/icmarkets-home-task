@@ -4,7 +4,7 @@ import { CryptoSymbol } from '@/domain/types/CryptoSymbol';
 import { QUERY_KEYS } from '@/lib/queryKeys';
 
 export const useAllSymbols = () => {
-  return useQuery<CryptoSymbol[]>({
+  return useQuery<Record<string, CryptoSymbol>>({
     queryKey: QUERY_KEYS.allSymbols,
     queryFn: getSymbolsRequest,
   });

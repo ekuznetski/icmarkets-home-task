@@ -7,11 +7,11 @@ type Coin = {
 };
 
 interface PortfolioState {
-  coins: Coin[];
+  coins: Record<string, Coin>;
 }
 
 const initialState: PortfolioState = {
-  coins: [],
+  coins: {},
 };
 
 export const portfolioSlice = createSlice({
@@ -19,12 +19,10 @@ export const portfolioSlice = createSlice({
   initialState,
   reducers: {
     addCoin: (state, action: PayloadAction<Coin>) => {
-      if (!state.coins.find((c) => c.id === action.payload.id)) {
-        state.coins.push(action.payload);
-      }
+      state.coins[action.payload.id] = action.payload;
     },
     removeCoin: (state, action: PayloadAction<string>) => {
-      state.coins = state.coins.filter((c) => c.id !== action.payload);
+      delete state.coins[action.payload];
     },
   },
 });

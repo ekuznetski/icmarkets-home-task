@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getSymbolsRequest } from '@/utils/request';
 import { QUERY_KEYS } from '@/lib/queryKeys';
 import { getQueryClient } from '@/lib/queryClient';
-import { SymbolsTable } from '@/components/core/symbolsTable/symbolsTable';
+import { Portfolio } from '@/components/core/portfolio';
 
 export default async function Page() {
   const queryClient = getQueryClient();
@@ -11,15 +11,14 @@ export default async function Page() {
   queryClient.setQueryData(QUERY_KEYS.allSymbols, symbols);
 
   const dehydratedState = dehydrate(queryClient);
-  // TODO make sense to move hydration to HOC to follow DRY principle and reuse it in other components
   return (
     <HydrationBoundary state={dehydratedState}>
-      <SymbolsTable />
+      <Portfolio />
     </HydrationBoundary>
   );
 }
 
 export const generateMetadata = () => ({
-  title: 'Crypto Portfolio — Home',
+  title: 'Crypto Portfolio — Portfolio',
   description: 'Up-to-date cryptocurrency symbols and portfolio.',
 });
