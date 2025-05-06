@@ -14,6 +14,15 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
+    files: ['**/*.test.ts', '**/*.test.tsx'],
+    languageOptions: {
+      env: { jest: true },
+    },
+    rules: {
+      '@next/next/no-img-element': 'off',
+    },
+  },
+  {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
       parser: typescriptParser,
