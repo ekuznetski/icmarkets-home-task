@@ -70,6 +70,15 @@ export function Portfolio() {
             key={symbol.id}
             className='flex flex-col sm:flex-row items-center gap-2 sm:gap-6 p-3 sm:p-6 shadow-lg border border-zinc-800/60 rounded-2xl bg-zinc-900/90 dark:bg-zinc-900 cursor-pointer transition hover:shadow-2xl hover:bg-zinc-800/80 dark:hover:bg-zinc-800/80 group relative overflow-hidden'
             onClick={() => navigateToSymbolDetails(symbol)}
+            role='button'
+            tabIndex={0}
+            aria-label={`View details for ${symbol.name}`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                navigateToSymbolDetails(symbol);
+              }
+            }}
           >
             <div className='grid sm:grid-cols-7 sm:grid-rows-1 gap-2 w-full'>
               <div className='flex flex-row items-center gap-2 sm:gap-6 col-span-4 sm:col-span-1'>

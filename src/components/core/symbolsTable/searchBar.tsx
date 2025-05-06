@@ -22,7 +22,11 @@ export function SearchBar({ onChange }: SearchBarProps) {
   };
   return (
     <div className='relative w-full max-w-xs mb-4'>
+      <label htmlFor='search-input' className='sr-only'>
+        Search by name or symbol
+      </label>
       <Input
+        id='search-input'
         type='text'
         placeholder='Search by name or symbol...'
         value={internalValue}

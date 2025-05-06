@@ -1,8 +1,20 @@
 'use client';
 
-import { SymbolsTableInner } from '@/components/core/symbolsTable/symbolsTableInner';
-import { ErrorMessage } from '@/components/shared/errorMessage';
-import { Loader } from '@/components/shared/loader';
+import dynamic from 'next/dynamic';
+const Loader = dynamic(() => import('@/components/shared/loader').then((m) => m.Loader));
+
+const SymbolsTableInner = dynamic(
+  () => import('@/components/core/symbolsTable/symbolsTableInner').then((m) => m.SymbolsTableInner),
+  {
+    loading: () => <Loader />,
+  },
+);
+const ErrorMessage = dynamic(
+  () => import('@/components/shared/errorMessage').then((m) => m.ErrorMessage),
+  {
+    loading: () => <Loader />,
+  },
+);
 import { useAllSymbols } from '@/hooks/useAllSymbols';
 
 export function SymbolsTable() {

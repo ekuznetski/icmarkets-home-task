@@ -1,10 +1,25 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { ErrorMessage } from '@/components/shared/errorMessage';
+import dynamic from 'next/dynamic';
+const Loader = dynamic(() => import('@/components/shared/loader').then((m) => m.Loader));
 import { useSymbolDetails } from '@/hooks/useSymbolDetails';
 import { useParams, useRouter } from 'next/navigation';
-import { SymbolDetailsInner } from './symbolDetailsInner';
+
+const SymbolDetailsInner = dynamic(
+  () => import('./symbolDetailsInner').then((m) => m.SymbolDetailsInner),
+  {
+    loading: () => <Loader />,
+  },
+);
+const ErrorMessage = dynamic(
+  () => import('@/components/shared/errorMessage').then((m) => m.ErrorMessage),
+  {
+    loading: () => <Loader />,
+  },
+);
+const Skeleton = dynamic(() => import('@/components/ui/skeleton').then((m) => m.Skeleton), {
+  loading: () => <Loader />,
+});
 
 export function SymbolDetails() {
   const { id } = useParams<{ id: string }>();

@@ -19,8 +19,11 @@ export function Loader({
   return (
     <div
       className={`flex justify-center items-center min-h-[60vh] bg-background py-10 ${className}`}
+      role='status'
+      aria-live='polite'
     >
       <Card className='w-full max-w-md bg-transparent border-none flex flex-col items-center py-12 px-6'>
+        <span className='sr-only'>Loading...</span>
         <FontAwesomeIcon
           icon={faSync}
           className='text-blue-500 mb-4 animate-spin'

@@ -42,8 +42,10 @@ export function AddToPortfolio({
 
   if (isIcon) {
     return (
-      <span
-        title={inPortfolio ? 'Remove from portfolio' : 'Add to portfolio'}
+      <button
+        type='button'
+        aria-label={inPortfolio ? 'Remove from portfolio' : 'Add to portfolio'}
+        aria-pressed={inPortfolio}
         className={
           'inline-flex items-center justify-center cursor-pointer p-2 rounded ' +
           (inPortfolio ? 'text-yellow-400' : 'text-gray-400/50 hover:text-yellow-400') +
@@ -51,9 +53,16 @@ export function AddToPortfolio({
           className
         }
         onClick={handleClick}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick(e as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>);
+          }
+        }}
       >
         <FontAwesomeIcon icon={inPortfolio ? faStarSolid : faStarRegular} size='lg' />
-      </span>
+      </button>
     );
   }
 

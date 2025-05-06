@@ -144,6 +144,8 @@ export function SymbolsTableInner() {
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   const sorted = header.column.getIsSorted();
+                  const ariaSort =
+                    sorted === 'asc' ? 'ascending' : sorted === 'desc' ? 'descending' : undefined;
                   return (
                     <TableHead
                       key={header.id}
@@ -154,19 +156,30 @@ export function SymbolsTableInner() {
                           : '') +
                         (header.column.id === 'name' ? ' hidden sm:table-cell' : '')
                       }
-                      onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                      {...(canSort && ariaSort ? { 'aria-sort': ariaSort } : {})}
                     >
-                      <span className='inline-flex items-center gap-1'>
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        {canSort &&
-                          (sorted === false ? (
+                      {canSort ? (
+                        <button
+                          type='button'
+                          onClick={header.column.getToggleSortingHandler()}
+                          aria-label={`Sort by ${String(header.column.id)}`}
+                          className='w-full h-full flex items-center gap-1 bg-transparent border-0 p-0 m-0 cursor-pointer text-inherit'
+                          tabIndex={0}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {sorted === false ? (
                             <FontAwesomeIcon icon={faSort} className='w-3.5 h-3.5' />
                           ) : sorted === 'asc' ? (
                             <FontAwesomeIcon icon={faSortUp} className='w-3.5 h-3.5' />
                           ) : sorted === 'desc' ? (
                             <FontAwesomeIcon icon={faSortDown} className='w-3.5 h-3.5' />
-                          ) : null)}
-                      </span>
+                          ) : null}
+                        </button>
+                      ) : (
+                        <span className='inline-flex items-center gap-1'>
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                        </span>
+                      )}
                     </TableHead>
                   );
                 })}

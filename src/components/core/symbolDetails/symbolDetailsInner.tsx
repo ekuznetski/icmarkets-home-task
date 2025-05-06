@@ -116,6 +116,7 @@ export function SymbolDetailsInner() {
             target='_blank'
             rel='noopener noreferrer'
             className='flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors underline'
+            aria-label={`Open ${data.name} website in a new tab`}
           >
             <FontAwesomeIcon icon={faGlobe} className='w-4 h-4' /> Website
           </a>
@@ -126,6 +127,7 @@ export function SymbolDetailsInner() {
             target='_blank'
             rel='noopener noreferrer'
             className='flex items-center gap-1 text-pink-600 hover:text-pink-800 transition-colors underline'
+            aria-label={`Open ${data.name} subreddit in a new tab`}
           >
             <FontAwesomeIcon icon={faRedditAlien} className='w-4 h-4' /> Subreddit
           </a>
@@ -136,6 +138,7 @@ export function SymbolDetailsInner() {
             target='_blank'
             rel='noopener noreferrer'
             className='flex items-center gap-1 text-sky-500 hover:text-sky-700 transition-colors underline'
+            aria-label={`Open ${data.name} Twitter in a new tab`}
           >
             <FontAwesomeIcon icon={faTwitter} className='w-4 h-4' /> Twitter
           </a>

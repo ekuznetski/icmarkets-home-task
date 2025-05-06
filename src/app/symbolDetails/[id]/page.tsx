@@ -1,5 +1,13 @@
-import { SymbolDetails } from '@/components/core/symbolDetails/symbolDetails';
+import dynamic from 'next/dynamic';
+const Loader = dynamic(() => import('@/components/shared/loader').then((m) => m.Loader));
 import type { Metadata } from 'next';
+
+const SymbolDetails = dynamic(
+  () => import('@/components/core/symbolDetails/symbolDetails').then((m) => m.SymbolDetails),
+  {
+    loading: () => <Loader />,
+  },
+);
 
 type Props = {
   params: Promise<{ id: string }>;

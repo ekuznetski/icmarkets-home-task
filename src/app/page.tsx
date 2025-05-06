@@ -2,7 +2,15 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getSymbolsRequest } from '@/utils/request';
 import { QUERY_KEYS } from '@/lib/queryKeys';
 import { getQueryClient } from '@/lib/queryClient';
-import { SymbolsTable } from '@/components/core/symbolsTable/symbolsTable';
+import dynamic from 'next/dynamic';
+const Loader = dynamic(() => import('@/components/shared/loader').then((m) => m.Loader));
+
+const SymbolsTable = dynamic(
+  () => import('@/components/core/symbolsTable/symbolsTable').then((m) => m.SymbolsTable),
+  {
+    loading: () => <Loader />,
+  },
+);
 
 export default async function Page() {
   const queryClient = getQueryClient();
